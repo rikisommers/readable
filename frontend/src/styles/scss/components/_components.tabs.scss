@@ -1,0 +1,31 @@
+
+
+.c-tabs_nav{
+background-color:blueviolet;
+
+height:50px;
+display:flex;
+list-style-type: none;
+margin-left:0;
+
+    li{
+
+    }
+
+    li a {
+    display:block;
+    line-height: 50px;
+    padding:0 20px;
+    font-weight:bold;
+    color:#fff;
+    text-decoration:none;
+    font-family:Arial, Helvetica, sans-serif;
+
+    }
+
+}
+
+
+.c-tabs_content{
+padding:20px;
+}

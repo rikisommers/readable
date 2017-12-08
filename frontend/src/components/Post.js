@@ -8,34 +8,45 @@ class Post extends Component {
         console.log(this.props)
         return(
 
-            <div>
-            
-                <h2>{ post.title }</h2>
-                <div>Category: { post.category }</div>
-                <div>
-                Posted: { post.timestamp }
-                </div>
-                <div>
-                Votescore: { post.voteScore}
-                </div>
-                <div>
-                Author: { post.author }
-                </div>
-                <div>
-                { post.body }
-                </div>
-                <div>
-                Comments: { post.commentCount }
+            <div className="c-card" >
+
+                <div className="c-card_header">
+                    <Link to="/">
+                <span className="c-card_title">{ post.title }</span>
+                    </Link>
+                    
+                    <span className="c-card_subtitle">cat:{ post.category } score:{ post.voteScore} </span>
                 </div>
 
+                <div className="c-card_content">
+                    
+                    <span className="c-card_subtitle">posted:{ post.timestamp }  by: { post.author}</span>
 
+                    <div className="c-card_text">
+                        { post.body }
+                        
+                    </div>
+
+                    <span className="c-card_subtitle">comments: { post.commentCount }</span>
+
+                </div>
+                <div className="c-card_actions">
+
+                    {/* <button className="c-flatButton" onClick={this.editPost}>Edit</button>
+                    <button className="c-flatButton" onClick={this.deletePost} >Delete</button> */}
+                    <button className="c-flatButton">Edit</button>
+                    <button className="c-flatButton">Delete</button>
+                    
+                </div>
             </div>
+
         )
     }
 }
 
 
 export default Post;
+
 // function mapStateToProps({ post }) {
 //     return {
 //         post

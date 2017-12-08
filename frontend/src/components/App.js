@@ -1,86 +1,91 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
 import { withRouter } from 'react-router-dom'
 import { Route } from 'react-router-dom'
 import { Link } from 'react-router-dom'
-
 import { getCategories, getPosts } from '../actions/';
 
-import PostsList from './PostsList';
-import Category from './PostsList';
-import '../styles/App.css';
+import '../styles/master.css';
+import AppBar from './AppBar';
+import Category from './Category';
+import Posts from './Posts';
+
+//import addComment from 'react-icons/lib/ma/insert-comment';
+import IconAddCircle from 'react-icons/lib/md/add-circle';
+
 
 class App extends Component {
 
 
-    componentDidMount() {
-       this.handleGetPosts();
-       this.handleGetCategories();
+    state = {
+        addPostModalOpen: false
+    }
+    
+    openPostModal = () => {
+        this.setState(() => ({
+          addPostModalOpen: true
+        }))
     }
 
-    
-    // you can use mapDispatchToPorps instead of this approach
-    handleGetCategories = () => {
-        this.props.dispatch(getCategories())
+    closePostModal = () => {
+        this.setState(() => ({
+            addPostModalOpen: false
+        }))
     }
-    handleGetPosts = () => {
+
+    componentDidMount() {
+        console.log('props',this.props);
+        this.props.dispatch(getCategories())
         this.props.dispatch(getPosts())
     }
 
 
-
-
     render() {
-    //console.log(this.props.state)
     const categories = this.props.categories
-    console.log(categories)
-    
+    const posts = this.props.posts
+
+    // let posts = [];
+    // let sortedPosts = this.props.posts.filter( post => post.deleted === false).sort(function(postA, postB){
+    //         return postB.voteScore - postA.voteScore;
+    // });
+  
+    // let activeCategory =  this.props.currentCategory;
+
+    // if (activeCategory !== 'all'){
+    //     posts = sortedPosts.filter( post => post.category === activeCategory);
+    // }else{
+    //     posts = sortedPosts;
+    // }
 
         return (
 
             <div className="App">
-                
-                
-                <nav className="nav">
-                    <ul className="nav-list">
+                <AppBar />
 
-                        { categories && categories.map((category) => (
-                            <li key={category.name}>
-                                
-                                <Link to={`${category.path}`} >{category.name}</Link> 
-                                {/* 
-                                Pass state or hash if you need to
-                                <Link to={{
-                                pathname: '/courses',
-                                search: '?sort=name',
-                                hash: '#the-hash',
-                                state: { fromDashboard: true }
-                                }}> */}
-                                    
-                            </li>
-                        ))}
-                        
-                    </ul>
-                </nav> 
 
-                
-                <Route exact path ='/' render={({ history }) => (
-                    <PostsList/>
-                )}/>
+                <ul className="c-tabs_nav">
+                    
+                    <li key="all">
+                        <Link to={`/`} >{`all`}</Link>
+                    </li>
 
-                {/* <Route exact path ='/react' component={(Category)} /> */}
+                    { categories && categories.map((category) => (
+                        <li key={category.name}>
+                            <Link to={`${category.path}`} >{category.name}</Link> 
+                        </li>
+                    ))}
+                    
+                </ul>
+  
 
 
 
-            {/* <Route path="/" exact component={PostsMain} />
-            <Route path="/posts/new" exact component={PostsNew} />
-            <Route path="/:category" exact component={props => <PostsMain {...props} />} />
-            <Route path="/:category/edit/:id" children={props => <PostsEdit {...props}/>} />
-            <Route path="/:category/:id" exact component={PostsDetail} />
-            <Route path="/:category/:id/comments/new" component={CommentsNew} />
-            <Route path="/:category/:postId/comments/edit/:id" component={props => <CommentsEdit {...props}/>} />
-            <Route path="*" component={NotFound} /> */}
+                <div className="c-tabs_content">
+                    <Posts />
+                </div>
+
+                {/* <Route exact path ='/react' component={props => <PostsMain {...props} />} /> */}
+
 
 
             </div>
@@ -89,29 +94,18 @@ class App extends Component {
 }
 
 
-// function mapDispatchToProps (dispatch) {
-//         return (
-//             dispatch(getCategories()),
-//           dispatch(getPosts())
-//         )
-// }
+// map both disptch functions to props
+function mapDispatchToProps ({ getCategories, getPosts }){
+
+    return {
+    
+    }
+
+} 
 
 //export default App
 function mapStateToProps ({ categories, posts }) {
-    console.log('App cat:',categories)
-    console.log('App posts:',posts)
     
-                // check if posts exist
-            // if(posts) {
-            //     return posts.reduce((obj, p) => {
-            //       obj[p.id] = p
-            //       return obj
-            //     }, {})
-            // }
-
-    // reformat your data here
-    // TODO: reformat timestamp 
-
     return {
         categories,
         posts
@@ -119,6 +113,5 @@ function mapStateToProps ({ categories, posts }) {
 
 }
 
-//export default 
 //export default connect(mapStateToProps)(App)
 export default withRouter(connect(mapStateToProps)(App));

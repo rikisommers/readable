@@ -1,0 +1,8 @@
+[
+  "node_modules/swiper/dist/js/swiper.jquery.min.js",
+  "node_modules/swiper/dist/css/swiper.css",
+  "node_modules/greensock/dist/TweenMax.js",
+  "node_modules/waypoints/lib/jquery.waypoints.min.js",
+  "node_modules/object-fit-videos/dist/object-fit-videos.min.js",
+  "node_modules/lodash/function/debounce.js"
+]

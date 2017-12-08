@@ -1,0 +1,173 @@
+/**
+ * UTILITIES.LAYOUT
+ * @description : These classes trump other preceeding styles.
+ *                Userful for quickly applying common adjustments.
+ */
+ 
+
+.u-fr {
+    float: right;
+}
+
+.u-fl {
+    float: left;
+}
+
+/**
+ *  MARGINS
+ */
+
+// Margin Top
+.u-mt-2 {
+    margin-top: $spacer * -2;
+}
+.u-mt {
+    margin-top: $spacer;
+}
+.u-mt2 {
+    margin-top: $spacer * 2;
+}
+.u-mt3 {
+    margin-top: $spacer * 3;
+}
+.u-mt4 {
+    margin-top: $spacer * 4;
+}
+.u-mt6 {
+    margin-top: $spacer * 6;
+}
+
+// Margin Right
+.u-mr-2 {
+    margin-right: $spacer * -2;
+}
+.u-mr {
+    margin-right: $spacer;
+}
+.u-mr2 {
+    margin-right: $spacer * 2;
+}
+.u-mr3 {
+    margin-right: $spacer * 3;
+}
+.u-mr4 {
+    margin-right: $spacer * 4;
+}
+.u-mr6 {
+    margin-right: $spacer * 6;
+}
+
+// Margin Bottom
+.u-mb {
+    margin-bottom: $spacer;
+}
+.u-mb2 {
+    margin-bottom: $spacer * 2;
+}
+.u-mb3 {
+    margin-bottom: $spacer * 3;
+}
+.u-mb4 {
+    margin-bottom: $spacer * 4;
+}
+.u-mb6 {
+    margin-bottom: $spacer * 6;
+}
+
+// xs-sm-md margin horizontal
+// need to add this to grid instead
+.u-mh{
+    @media only screen and(max-width: $lg) {
+        margin-left: $spacer;
+        margin-right: $spacer;
+    }
+}
+
+.u-mh2 {
+    @media only screen and(max-width: $lg) {
+        margin-left: $spacer * 2;
+        margin-right: $spacer * 2;
+    }
+}
+
+
+// Margins Vertical
+.u-mv0 {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+.u-mv05 {
+    margin-bottom: $spacer * 0.5;
+    margin-top: $spacer * 0.5;
+}
+.u-mv {
+    margin-bottom: $spacer;
+    margin-top: $spacer;
+}
+.u-mv2 {
+    margin-bottom: $spacer * 2;
+    margin-top: $spacer * 2;
+}
+.u-mv3 {
+    margin-bottom: $spacer * 3;
+    margin-top: $spacer * 3;
+}
+.u-mv4 {
+    margin-bottom: $spacer * 4;
+    margin-top: $spacer * 4;
+}
+
+
+/**
+ *  PADDING
+ */
+
+// Padding Top
+.u-pt-05 {
+    padding-top: $spacer * 0.5;
+}
+.u-pt-2 {
+    padding-top: $spacer * -2;
+}
+.u-pt {
+    padding-top: $spacer;
+}
+.u-pt2 {
+    padding-top: $spacer * 2;
+}
+
+
+// Padding Bottom
+.u-pb {
+    padding-bottom: $spacer;
+}
+.u-pb2 {
+    padding-bottom: $spacer * 2;
+}
+.u-pb3 {
+    padding-bottom: $spacer * 3;
+}
+.u-pb4 {
+    padding-bottom: $spacer * 4;
+}
+.u-pb6 {
+    padding-bottom: $spacer * 6;
+}
+
+
+// Padding Vertical
+.u-pv {
+    padding-top: $spacer;
+    padding-bottom: $spacer;
+}
+
+.u-pv2 {
+    padding-top: $spacer * 2;
+    padding-bottom: $spacer * 2;
+}
+.u-pv4 {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+}
+
+

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom'
 
-class Post extends Component {
+class Category extends Component {
     render() {
         const { category } = this.props
         console.log(this.props)
@@ -10,7 +10,7 @@ class Post extends Component {
 
             <div>
             
-                <h1>Test</h1>
+                <h1>cat:{category}</h1>
 
             </div>
         )

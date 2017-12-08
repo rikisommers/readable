@@ -1,0 +1,41 @@
+/*
+ * MASTER.SCSS
+ *
+ * @Project : Project Name
+ * @Author  : AuthorName [author.name@nvinteractive.com]
+ *
+ */
+
+
+// Set the viewport to resize responsively (similar to viewport meta tag)
+@viewport {
+width: device-width;
+zoom: 1;
+}
+
+// PLUGINS
+@import '../../../node_modules/breakpoint-sass/stylesheets/_breakpoint.scss';
+
+// SETTINGS
+@import 'settings/settings.base';
+@import 'settings/settings.breakpoints';
+@import 'settings/settings.grid';
+
+// TOOLS
+@import 'tools/tools.functions.scss';
+
+// GENERIC
+@import 'generic/generic.reset';
+
+// OBJECTS
+@import 'objects/objects.grid';
+
+// COMPONENTS
+@import 'components/components.app';
+@import 'components/components.navbar';
+@import 'components/components.tabs';
+@import 'components/components.card';
+@import 'components/components.buttons';
+
+// UTILITIES
+@import 'utilities/utilities.layout';

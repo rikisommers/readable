@@ -1,0 +1,114 @@
+/**
+ * TOOLS.FUNCTIONS
+ *
+ * @description : Common functions
+ *
+ */
+
+
+/**
+ * Strip Unit
+ *  @desc       : Strips the unit from a value to we can use it for calculations
+ *  @source     : https://css-tricks.com/snippets/sass/strip-unit-function/
+ *  @param      : $num - Number to remove unit from
+ *  @return     : Unitless value
+ */
+
+ @function strip-unit($num) {
+   @return $num / ($num * 0 + 1);
+ }
+
+
+/**
+ *  REM Calc
+ *  @desc      : Converts px values to REMs
+ *  @param     : $val - The value to convert (usually passed in px but unit may be omitted)
+ *  @param     : $base – Optional parameter, passed if you'd like to calculate with a different base font size
+ *  @param     : $base-font-size – The default font size (defined in _settings.base.scss)
+ *  @return    : $rems - rem-converted value
+ */
+
+ @function rem($val, $base:null){
+
+     @if $base == null {
+         $base : $base-font-size;
+     }
+
+     @if unit($base) == '%' {
+         $base : ($base / 100%) * 16px;
+     }
+
+     $rems: ( strip-unit($val) / strip-unit($base) ) + rem;
+
+     @return $rems;
+
+ }
+
+
+/**
+ *  Decimal-Round
+ *  @desc      : Rounds a floating point number to the nearest whole number
+ *  @param     : $number - The number to be rounded. must be unitless.
+ */
+
+ @function decimal-round ($number, $digits: 0, $mode: round) {
+     $n: 1;
+     // $number must be a number
+     @if type-of($number) != number {
+         @warn '#{ $number } is not a number.';
+         @return $number;
+     }
+     // $digits must be a unitless number
+     @if type-of($digits) != number {
+         @warn '#{ $digits } is not a number.';
+         @return $number;
+     } @else if not unitless($digits) {
+         @warn '#{ $digits } has a unit.';
+         @return $number;
+     }
+     @for $i from 1 through $digits {
+         $n: $n * 10;
+     }
+     @if $mode == round {
+         @return round($number * $n) / $n;
+     } @else if $mode == ceil {
+         @return ceil($number * $n) / $n;
+     } @else if $mode == floor {
+         @return floor($number * $n) / $n;
+     } @else {
+         @warn '#{ $mode } is undefined keyword.';
+         @return $number;
+     }
+ }
+
+ /**
+  *  Decimal-Floor
+  *  @desc      : Rounds a floating point number down to the nearest whole number
+  */
+ @function decimal-floor ($number, $digits: 0) {
+     @return decimal-round($number, $digits, floor);
+ }
+
+
+
+
+ @mixin material-shadow($z-depth: 1, $strength: 1, $color: black) {
+    @if $z-depth == 1 {
+      box-shadow: 0 1px 3px rgba($color, $strength * 0.14), 0 1px 2px rgba($color, $strength * 0.24);
+    }
+    @if $z-depth == 2 {
+      box-shadow: 0 3px 6px rgba($color, $strength * 0.16), 0 3px 6px rgba($color, $strength * 0.23);
+    }  
+    @if $z-depth == 3 {
+      box-shadow: 0 10px 20px rgba($color, $strength * 0.19), 0 6px 6px rgba($color, $strength * 0.23);
+    }    
+    @if $z-depth == 4 {
+      box-shadow: 0 15px 30px rgba($color, $strength * 0.25), 0 10px 10px rgba($color, $strength * 0.22);    
+    }
+    @if $z-depth == 5{
+      box-shadow: 0 20px 40px rgba($color, $strength * 0.30), 0 15px 12px rgba($color, $strength * 0.22);   
+    }
+    @if ($z-depth < 1) or ($z-depth > 5) {
+      @warn "$z-depth must be between 1 and 5";
+    }
+  }

@@ -1,0 +1,31 @@
+/**
+ * SETTINGS.BASE
+ *
+ * @description : Key application variables and settings
+ *
+ */
+
+// Colors
+$text-color    : #212326;
+$bg-light          : #E8EDEE;
+
+// UX/Validation colors
+$notice        : #2ab9ff;  // Blue
+$confirm       : #6fd100;  // Green
+$alert         : #ffa800;  // Orange
+$warning       : #c60000;  // Red
+
+
+$base-font-size:    16px;
+$base-line-height:  1.5rem;
+
+// Spacing unit for calculating consistent margins/padding etc
+$spacer: 1.25rem; // 20px;
+
+// Custom easing for this project
+$ease: cubic-bezier(0.4, 0.0, 0.15, 1.0);
+
+// Navbar
+$navbar-height:rem(50);
+
+
