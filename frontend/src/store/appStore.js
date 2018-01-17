@@ -4,6 +4,9 @@ import thunk from 'redux-thunk';
 import appReducer from '../reducers';
 
 
+
+
+
 const appStore = () => {
 
     const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -18,7 +21,9 @@ const appStore = () => {
         appReducer,
         enhancers
     );
-  
+
+
+
     // fetch initial data error: actions must be basic object!
     // store.dispatch(getCategories());
     // store.dispatch(getPosts());

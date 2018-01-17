@@ -7,11 +7,11 @@ const AppBar = () => {
     return(
         <nav className="c-appBar">
 
-            <Link to="/">
-                <h1 className="u-fl">Title</h1>
+            <Link to="/add-post">
+                <h1 className="u-fl">Readable</h1>
             </Link>
 
-            <Link to={`/add`} className="c-flatButton" >add </Link>
+            <Link to={`/add-post`} className="c-flatButton" >Add new post</Link>
 
         </nav> 
     )

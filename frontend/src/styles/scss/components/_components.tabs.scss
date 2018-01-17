@@ -1,31 +1,57 @@
 
+.c-posts_filter{
+    background-color:$bg-light;
+    display:flex;
+    justify-content: space-between;
+    margin-bottom:20px;
+}
 
-.c-tabs_nav{
-background-color:blueviolet;
-
-height:50px;
-display:flex;
+.c-filter{
+height:70px;
+line-height: 70px;
 list-style-type: none;
 margin-left:0;
+display:flex;
 
-    li{
+    label{
+    font-size:12px;
+    text-transform:uppercase;
+    color:#999;
+    margin:0 5px 0 20px
+    }
+
+    ul{
+    margin-left:0;
+    display:flex;
+    flex-basis: min-content;
+        
+        li{
+        display:inline-block;
+        }
 
     }
 
     li a {
     display:block;
-    line-height: 50px;
+    line-height: 70px;
     padding:0 20px;
     font-weight:bold;
-    color:#fff;
+    color:#000;
     text-decoration:none;
     font-family:Arial, Helvetica, sans-serif;
-
     }
+
 
 }
 
 
+.c-filter_order{
+padding:0 20px;
+line-height:70px;
+
+}
+
 .c-tabs_content{
 padding:20px;
+background-color:lighten($bg-light,4%);
 }
