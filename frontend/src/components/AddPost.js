@@ -13,7 +13,9 @@ class AddPost extends Component {
 
 
     state={
-     post:{}
+     post:{
+         category:'react'
+     }
     }
 
     handleChange(event) {
@@ -38,28 +40,13 @@ class AddPost extends Component {
 
         this.setState({post})
 
-
-        //this.state.post.id = genID();
-        //this.state.post.timestamp = Date.now();
-
-        // this.setState({
-        // options: state
-        // })
-
-        //const post = this.state.post;
-        
-
-
-
-        //console.log(post);
         API.addPost(post).then((post) => {
             this.props.addNewPost(post);
             console.log('post from func', post)
         });
 
-        toast("new post created");
-        this.props.history.push("/");
-       // this.props.history.go(-1);
+        this.props.history.push("/all");
+ 
         
     }
 
@@ -71,15 +58,17 @@ class AddPost extends Component {
 
     return(
 
-        <div>
+        <div className="c-posts">
+            
 
-            <div className='search-container'>
+            <div className="c-card" >
+                <div className="c-card_header">
+                    <h3 className='subheader'>
+                        Add post
+                    </h3>
+                </div>
 
-                <h3 className='subheader'>
-                    Add post
-                </h3>
-
-                <div className='addPost'>
+            <div className="c-card_content">
     
                 <form onSubmit={this.handleSubmit.bind(this)}>
         

@@ -28,7 +28,7 @@ class EditComment extends Component {
         comment[name] = value;
 
         this.setState({comment})
-        console.log('on change',comment)
+
     }
 
 
@@ -46,14 +46,9 @@ class EditComment extends Component {
         API.addComment(comment).then((comment) => {
             this.props.addNewComment(comment); 
         }));
-       
-        console.log('on submit', comment)
 
-        toast("comment updated");
+        this.props.history.push('/posts/' + this.state.comment.parentId ) 
 
-        setTimeout(() => {
-            this.props.history.push('/posts/' + this.state.comment.parentId ) 
-        }, 600);
 
     }
 
@@ -135,13 +130,15 @@ class EditComment extends Component {
 
         <div>
             
-            <div className='search-container'>
+            <div className="c-card" >
 
-                <h3 className='subheader'>
-                    EDIT COMMENT
-                </h3>
+                <div className="c-card_header">
+                    <h3 className='subheader'>
+                        EDIT Comment
+                    </h3>
+                </div>
 
-                <div className='addPost'>
+                <div className="c-card_content">
     
                     <form onSubmit={this.handleSubmit.bind(this)}>
         

@@ -11,20 +11,20 @@ import * as API from '../utils/ReadableAPI';
 // getCategories
 
 
-// Availble Action types
+// Available Action types
 export const SET_CATEGORIES = 'SET_CATEGORIES';
 export const SET_POSTS = 'SET_POSTS';
 export const SET_POSTS_BY_VOTE = 'SET_POSTS_BY_VOTESCORE';
 export const SET_POSTS_BY_CAT = 'SET_POSTS_BY_CAT';
+export const SET_ACTIVE_CATEGORY = 'SET_ACTIVE_CATEGORY';
+export const SET_CURRENT_POST = 'SET_CURRENT_POST';
+export const SET_POST_BY_ID = 'SET_POST_BY_ID';
 
 //export const SET_POST = 'SET_POST';
-
-
 export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const GET_POST = 'GET_POST';
 export const EDIT_POST = 'EDIT_POST';
-export const SET_CURRENT_POST = 'SET_CURRENT_POST';
 export const VOTE_POST = 'VOTE_POST';
 
 export const SET_COMMENTS = 'SET_COMMENTS';
@@ -59,6 +59,16 @@ export const VOTE_COMMENT = 'VOTE_COMMENT';
     }
 
 
+
+    export function setActiveCategory ( category ){
+      return {
+          type : SET_ACTIVE_CATEGORY, 
+          category
+      };
+    }
+
+
+
     export function setPosts ( posts ){
       return {
           type : SET_POSTS, 
@@ -75,13 +85,21 @@ export const VOTE_COMMENT = 'VOTE_COMMENT';
     }
 
 
-    export function setPostsByCat ( category ){
+    export function setPostsByCat ( category , posts){
         return {
             type : SET_POSTS_BY_CAT, 
-            category
+            category,
+            posts
         }
     }
 
+    export function setPostById ( postId , post){
+        return {
+            type : SET_POSTS_BY_CAT, 
+            postId,
+            post
+        }
+    }
 
     // export function setPost( post ) {
     //   return {

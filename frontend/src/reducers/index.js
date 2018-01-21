@@ -8,6 +8,7 @@ var initialState = {
     comments:[],
     activeCategory:'all',
     currentPost:{},
+    activePost:{},
     currentComment:{}
 };
 
@@ -43,6 +44,12 @@ const appReducer = (state = initialState, action = {}) => {
                 'posts': action.posts.reverse()
             }
 
+        case actions.SET_ACTIVE_CATEGORY:
+            return{
+            ...state , 
+            'activeCategory': action.category
+            }
+
 
         case actions.SET_POSTS_BY_VOTE:
             
@@ -59,15 +66,21 @@ const appReducer = (state = initialState, action = {}) => {
 
         case actions.SET_POSTS_BY_CAT:
 
-            let postsFilteredByCat = state.posts.filter( (post) => post.category === action.category);
+            var postsFilteredByCat = state.posts.filter( (post) => post.category === action.category); 
 
             return {
                 ...state , 
                 'posts': postsFilteredByCat
-                //'fiteredPosts': postsFilteredByCat
             }
 
-    
+        case actions.SET_POST_BY_ID:
+            console.log(action.postId)
+            console.log(action.post)
+            return {
+                ...state , 
+                'currentPost': action.post
+            }
+
 
 // POSTS ------------------------------------------------------------------------------------
 
@@ -92,7 +105,7 @@ const appReducer = (state = initialState, action = {}) => {
 
 
         case actions.EDIT_POST:
-            
+            //error cause missing id? try using pop/other arr action
             let updatedPostsEdit = state.posts.filter( (post) => post.id !== action.postId);   
             
             return {
@@ -102,11 +115,9 @@ const appReducer = (state = initialState, action = {}) => {
 
 
         case actions.DELETE_POST:
-        
-            //for use when editing posts
+
             let updatedPosts = state.posts.filter( (post) => post.id === action.postId);  
-            //let posts = state.posts; 
-            
+
             return {
                 ...state, 
                 'posts': updatedPosts

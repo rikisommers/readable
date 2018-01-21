@@ -22,7 +22,31 @@ class AddPost extends Component {
      post:{}
     }
 
+    
+    componentDidMount() {
 
+        let currentPost = this.props.currentPost[0]
+        let post = this.state.post;
+
+        if( currentPost ){
+            
+            // populate form from currentPost data
+            document.getElementById('category').value = currentPost.category;
+            document.getElementById('title').value = currentPost.title;
+            document.getElementById('body').value = currentPost.body;
+
+            // populate post in state in case user submits form with no change
+            post.id = currentPost.id;
+            post.title = currentPost.title
+            post.body = currentPost.body
+            post.author = currentPost.author
+            post.category = currentPost.category
+
+        }
+        
+    }
+
+    
     handleChange(event) {
 
         // populatecomponent state on form change
@@ -61,38 +85,13 @@ class AddPost extends Component {
             }));
             
             toast("post updated");
-            this.props.history.push("/");
+            //this.props.history.push("/");
+            this.props.history.go(-1);
         }
         
      
     }
 
-
-
-
-    
-    componentDidMount() {
-
-        let currentPost = this.props.currentPost[0]
-        let post = this.state.post;
-
-        if( currentPost ){
-            
-            // populate form from currentPost data
-            document.getElementById('category').value = currentPost.category;
-            document.getElementById('title').value = currentPost.title;
-            document.getElementById('body').value = currentPost.body;
-
-            // populate post in state in case user submits form with no change
-            post.id = currentPost.id;
-            post.title = currentPost.title
-            post.body = currentPost.body
-            post.author = currentPost.author
-            post.category = currentPost.category
-
-        }
-        
-    }
 
     render() {
       const categories = this.props.categories;
@@ -101,71 +100,73 @@ class AddPost extends Component {
 
     return(
 
-        <div>
+        <div className="c-posts">
             
-            <div className='search-container'>
 
-                <h3 className='subheader'>
-                    EDIT POST
-                </h3>
+            <div className="c-card" >
 
-                <div className='addPost'>
+                <div className="c-card_header">
+                    <h3 className='subheader'>
+                        EDIT POST
+                    </h3>
+                </div>
+
+                <div className="c-card_content">
     
-                <form onSubmit={this.handleSubmit.bind(this)}>
-        
-                        <div className="form-group">
+                    <form onSubmit={this.handleSubmit.bind(this)}>
+            
+                            <div className="form-group">
 
-                            <select id="category"
-                            //value={newCategory}
-                            name='category'
-                            onChange={this.handleChange.bind(this)}
-                            >
+                                <select id="category"
+                                //value={newCategory}
+                                name='category'
+                                onChange={this.handleChange.bind(this)}
+                                >
 
-                                <option disabled>Select category...</option>
-                                <option value="none" name='none'>None</option>
+                                    <option disabled>Select category...</option>
+                                    <option value="none" name='none'>None</option>
+                                    
+                                    { categories && categories.map((category) => (
+                                        <option key={category.name} value={category.name} >{category.name}</option> 
+                                    ))}
+
+                                </select>
+
                                 
-                                { categories && categories.map((category) => (
-                                    <option key={category.name} value={category.name} >{category.name}</option> 
-                                ))}
+                            </div>
 
-                            </select>
-
-                             
-                        </div>
-
-                        <div className="form-group">
-                            <input id="title"
-                                className='post-title'
-                                name='title'
-                                type='text'
-                                placeholder='Post title'
-                                onChange={this.handleChange.bind(this)}
-                                value={this.props.post}
-                                //ref={(input) => this.title = input } 
-                            />
-                        </div>
+                            <div className="form-group">
+                                <input id="title"
+                                    className='post-title'
+                                    name='title'
+                                    type='text'
+                                    placeholder='Post title'
+                                    onChange={this.handleChange.bind(this)}
+                                    value={this.props.post}
+                                    //ref={(input) => this.title = input } 
+                                />
+                            </div>
 
 
-                        <div className="form-group">
-                            <input id="body"
-                                className='post-body'
-                                name='body'
-                                type='textarea'
-                                placeholder='Post body'
-                                onChange={this.handleChange.bind(this)}
-                                //ref={(input) => this.body = input } 
-                            />
-                        </div>
+                            <div className="form-group">
+                                <input id="body"
+                                    className='post-body'
+                                    name='body'
+                                    type='textarea'
+                                    placeholder='Post body'
+                                    onChange={this.handleChange.bind(this)}
+                                    //ref={(input) => this.body = input } 
+                                />
+                            </div>
 
-                        <div className="form-group">
-                            <input className="c-flatButton" type="submit" value="Save" /> 
-                        </div>
+                            <div className="form-group">
+                                <input className="c-flatButton c-flatButton--grey" type="submit" value="Save" /> 
+                            </div>
 
                     </form>
 
                 </div>
                 
-            
             </div>
 
         </div>

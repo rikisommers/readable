@@ -29,18 +29,12 @@ const headers = {
       error => console.log('An error occurred', error)
     )
 
-
-
   export const getPosts = () => 
     fetch(`${api}/posts`, { headers })
       .then(
         res => res.json(),
         error => console.log('An error occurred', error)
       )
-
-  
-  
-
 
 
   export const getPostsByCat = (category) =>
@@ -49,9 +43,36 @@ const headers = {
       .then(data => data)
   
 
+  // export const getPost = (postId,post) => 
+  //     fetch(`${api}/posts` + postId, { 
+  //       method:'GET',
+  //       headers: headers,
+  //       body: JSON.stringify(post)
+  //       //body: JSON.stringify(updatedPost)
+  //     }).then(
+  //       res => res,
+  //       console.log('got current post'),
+  //       error => console.log('An error occurred', error)
+  //     )
+    
+  export const getPostById = (postId,post) =>
+    fetch(`${api}/posts/` + postId, { 
+      method: 'GET',
+      headers: headers,
+      body: JSON.stringify(post)
+    }).then(
+      res => res.json(),
+      error => console.log('An error occurred',this.res)
+    )
 
-
-
+  // export const getPostById = (postId,post) => 
+  //   fetch(`${api}/posts/` + postId, {
+  //     method: 'GET',
+  //     headers: headers,
+  //     body: JSON.stringify(post)
+  //   }).then(
+  //     console.log('got a post from api')
+  //   )
 
 
   // POST ------------------------------------------------------------------------------------------

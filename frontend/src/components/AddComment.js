@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
-import { ToastContainer, toast } from 'react-toastify';
 
 import * as API from '../utils/ReadableAPI';
 import { genID } from '../utils/GenID';
@@ -30,6 +29,7 @@ class AddComment extends Component {
         comment[name] = value;
         this.setState({comment})
         console.log(this.state.comment)
+        console.log(this.props.match.params.id)
     }
 
 
@@ -45,59 +45,41 @@ class AddComment extends Component {
  
         this.setState({ comment })
 
-        // this.state.comment.author = 'User 1';
-        // this.state.comment.id = genID();
-        // this.state.comment.parentId = this.props.match.params.id;
-        // this.state.comment.timestamp = Date.now();
-    
-
-
         API.addComment(comment).then((comment) => {
             this.props.addNewComment(comment); 
         });
-       
 
-
-
-        toast("New comment created");
-
-        setTimeout(() => {
-            //this.props.history.push("/");
-            this.props.history.push('/posts/' + this.props.match.params.id ) 
-        }, 600);
-          
+            this.props.history.push('/posts/' + this.state.comment.parentId )    
+        //this.props.history.go(-1);
     }
     
-    // componentDidMount() {
+    componentDidMount() {
        
-    //     const parentId = this.props.match.params.id;
-    //     console.log('mount',parentId)
+        const parentId = this.props.match.params.id;
+        console.log('mount',parentId)
 
-    // }
+    }
 
 
     render() {
         
-        const parentId = this.props.match.params.id;
-        console.log('render',parentId)
-
-
 
 
     return(
 
         <div>
-                    <ToastContainer />
 
-            <div className='search-container'>
+            <div className="c-card" >
 
-                <h3 className='subheader'>
-                    Add Comment
-                </h3>
+                <div className="c-card_header">
+                    <h3 className='subheader'>
+                        Add Comment
+                    </h3>
+                </div>
 
-                <div className='addPost'>
+                <div className="c-card_content">
     
-                <form onSubmit={this.handleSubmit.bind(this)}>
+                    <form onSubmit={this.handleSubmit.bind(this)}>
         
                         <div className="form-group">
                             <input id="body"
