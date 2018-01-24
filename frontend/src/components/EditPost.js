@@ -27,7 +27,7 @@ class AddPost extends Component {
 
         let currentPost = this.props.currentPost[0]
         let post = this.state.post;
-
+        
         if( currentPost ){
             
             // populate form from currentPost data
@@ -37,13 +37,15 @@ class AddPost extends Component {
 
             // populate post in state in case user submits form with no change
             post.id = currentPost.id;
+            post.commentCount = currentPost.commentCount;
+            post.voteScore = currentPost.voteScore;
             post.title = currentPost.title
             post.body = currentPost.body
             post.author = currentPost.author
             post.category = currentPost.category
 
         }
-        
+        console.log(currentPost)
     }
 
     
@@ -84,7 +86,8 @@ class AddPost extends Component {
             API.addPost(post).then((post) => {
                 this.props.addNewPost(post);
             }).then(
-                this.props.history.goBack()     
+                this.props.history.push(`/all`),
+                window.location.reload()
             );
             
         }
