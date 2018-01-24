@@ -191,12 +191,12 @@ class PostDetail extends Component {
 
                     <div className="c-post_actions">
             
-                        <div className="c-post_edit">
+                        {/* <div className="c-post_edit">
                             <Link to={`/${post.category}/${post.id}/edit-post`}>
                                 <button className="c-flatButton c-flatButton--grey" >Edit</button> 
                             </Link>
                             <button className="c-flatButton c-flatButton--grey" onClick={this.deletePost}>Delete</button>
-                        </div>
+                        </div> */}
 
 
                         <div className="c-post_vote">
