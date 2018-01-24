@@ -14,7 +14,7 @@ class PostDetail extends Component {
 
 
     state={
-        currentPost:'',
+        currentPost:{},
         post:{},
         comments:[]
     }
@@ -35,10 +35,14 @@ class PostDetail extends Component {
             console.log('pbyid',post)
         });
 
+        this.props.loadComments(postId);
+        this.props.setCurrentPost(postId);
+
         API.getComments(postId).then((comments) => {
-            console.log('comments pd',comments)
+            //console.log('comments pd',comments)
             this.setState({comments})
-            console.log('state pd',this.state)
+            
+            //console.log('state pd',this.state)
         });
 
     }
@@ -235,7 +239,7 @@ class PostDetail extends Component {
                                     <div className="c-card_actions">
 
                                         <div className="c-comment_edit">       
-                                            <Link to={'/edit-comment/:' + c.id}>
+                                            <Link to={`/${c.parentId}/${c.id}/edit-comment`}>
                                                 <button className="c-flatButton c-flatButton--grey">edit</button>
                                             </Link> 
                                             <button className="c-flatButton c-flatButton--grey" title={ c.id } onClick={ this.deleteComment }  >Delete</button>
@@ -312,7 +316,8 @@ function mapDispatchToProps( dispatch ) {
 function mapStateToProps(state) {
     return {
          posts:state.posts,
-         comments:state.comments
+         comments:state.comments,
+         currentPost:state.currentPost
     }
 }   
 

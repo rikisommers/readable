@@ -38,6 +38,8 @@ class EditComment extends Component {
     
         let comment = this.state.comment;
         let commentId = this.state.comment.id;
+        let activeCategory = this.props.activeCategory;
+        let currentPost = this.props.currentPost[0];
 
         comment.timestamp = Date.now();
         this.setState({ comment })
@@ -47,7 +49,8 @@ class EditComment extends Component {
             this.props.addNewComment(comment); 
         }));
 
-        this.props.history.push('/posts/' + this.state.comment.parentId ) 
+        //console.log('rthis comment',comment);
+        this.props.history.push('/'+ currentPost.category + '/' + currentPost.id ) 
 
 
     }
@@ -58,8 +61,14 @@ class EditComment extends Component {
         
         // use url - get by Id
         let comment = this.state.comment;
-        let commentId = this.props.match.params.commentId.replace(":","");
+        let commentId = this.props.match.params.commentId;
+        
+        console.log(commentId)
+        
         let currentComment = this.props.comments.find(function(c){ return c.id === commentId});
+        
+        console.log(currentComment)
+        
         let currentPost = this.props.currentPost[0]
 
         // this.setState(state => ({
@@ -74,7 +83,7 @@ class EditComment extends Component {
         }
 
         if( currentComment ){
-            //console.log('cc id',currentComment.id)
+            console.log('cc id',currentComment)
             document.getElementById('body').value = currentComment.body;
             
             // -- populate comment for dispatch
@@ -92,7 +101,7 @@ class EditComment extends Component {
             // this.state.comment.parentDeleted = currentComment.parentDeleted;
             // this.state.comment.voteScore = currentComment.voteScore;       
 
-            //console.log(this.state)
+            console.log(this.state)
             
 
 
@@ -190,7 +199,8 @@ function mapStateToProps( state ) {
         categories: state.categories,
         posts: state.posts,
         comments: state.comments,
-        currentPost: state.currentPost
+        currentPost: state.currentPost,
+        activeCategory:state.activeCategory
     }
 }   
   
