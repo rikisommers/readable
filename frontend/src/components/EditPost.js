@@ -79,14 +79,14 @@ class AddPost extends Component {
             // replace existing post in store
             API.deletePost(postId).then((post) => {
                 this.props.deletePost(post);
-            }).then(
+            });
+                
             API.addPost(post).then((post) => {
                 this.props.addNewPost(post);
-            }));
+            }).then(
+                this.props.history.goBack()     
+            );
             
-            toast("post updated");
-            //this.props.history.push("/");
-            this.props.history.go(-1);
         }
         
      

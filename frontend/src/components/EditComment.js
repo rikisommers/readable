@@ -44,13 +44,18 @@ class EditComment extends Component {
         comment.timestamp = Date.now();
         this.setState({ comment })
 
-        API.deleteComment(commentId).then(
-        API.addComment(comment).then((comment) => {
-            this.props.addNewComment(comment); 
-        }));
+        API.deleteComment(commentId);
+        
 
-        //console.log('rthis comment',comment);
-        this.props.history.push('/'+ currentPost.category + '/' + currentPost.id ) 
+            API.addComment(comment).then((comment) => {
+                this.props.addNewComment(comment); 
+            }).then(
+                this.props.history.push('/'+ currentPost.category + '/' + currentPost.id )
+            );
+
+        
+    
+        
 
 
     }
@@ -95,40 +100,9 @@ class EditComment extends Component {
 
             this.setState({comment})
 
-            // this.state.comment.id = commentId;
-            // this.state.comment.author = currentComment.author;
-            // this.state.comment.deleted = currentComment.deleted;
-            // this.state.comment.parentDeleted = currentComment.parentDeleted;
-            // this.state.comment.voteScore = currentComment.voteScore;       
-
             console.log(this.state)
-            
-
-
+        
         }
-
-
-     //   document.getElementById('author').value = currentPost.author;
-
-      
-
-
-
-
-       // document.getElementById('body').value = currentPost.body;
-
-
-
-        // if( currentPost ){
-
-        //     console.log('currentPost',currentPost)
-        //     console.log(currentPost.title);
-
-        //     document.getElementById('body').value = currentPost.body;
-        //     document.getElementById('author').value = currentPost.author;
-
-        // }
-
        
     }
 
