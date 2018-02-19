@@ -19,13 +19,16 @@ class AddPost extends Component {
 
 
     state={
-     post:{}
+        post:{},
+        postUpdated:false
+
     }
 
     
     componentDidMount() {
-
-        let currentPost = this.props.currentPost[0]
+        
+        this.setState({postUpdate:false})
+        let currentPost = this.props.post
         let post = this.state.post;
         
         if( currentPost ){
@@ -35,7 +38,9 @@ class AddPost extends Component {
             document.getElementById('title').value = currentPost.title;
             document.getElementById('body').value = currentPost.body;
 
-            // populate post in state in case user submits form with no change
+  
+
+  //          populate post in state in case user submits form with no change
             post.id = currentPost.id;
             post.commentCount = currentPost.commentCount;
             post.voteScore = currentPost.voteScore;
@@ -44,8 +49,17 @@ class AddPost extends Component {
             post.author = currentPost.author
             post.category = currentPost.category
 
+            // this.setState({
+            //     post: currentPost ,
+            // }, function () {
+            //     console.log(this.state);
+            // });
+    
+
         }
         console.log(currentPost)
+        //console.log(this.props,this.state)
+  
     }
 
     
@@ -57,15 +71,15 @@ class AddPost extends Component {
         let name = event.target.name;
         let value = event.target.value;
         post[name] = value;
-        this.setState({post})
-        console.log('on change',this.state.post)
+        this.setState({post:post})
+        console.log('on change',this.state)
     }
 
 
     handleSubmit(event) {
         event.preventDefault();
 
-        let currentPost = this.props.currentPost[0]
+        let currentPost = this.props
         if( currentPost ){
 
             let post = this.state.post;
@@ -76,7 +90,7 @@ class AddPost extends Component {
             post.author = 'User 1';
             this.setState({ post });
 
-            console.log('on submit',this.state.post);
+            console.log('on submit',this.state);
 
             // replace existing post in store
             API.deletePost(postId).then((post) => {
@@ -84,12 +98,13 @@ class AddPost extends Component {
             });
                 
             API.addPost(post).then((post) => {
-                this.props.addNewPost(post);
-            }).then(
-                this.props.history.push(`/all`),
-                window.location.reload()
-            );
-            
+                this.props.addNewPost(post)
+
+
+            })
+            this.setState({postUpdated:true})
+            this.props.closeModal()
+           // window.location.reload()
         }
         
      
@@ -127,7 +142,7 @@ class AddPost extends Component {
                                 >
 
                                     <option disabled>Select category...</option>
-                                    <option value="none" name='none'>None</option>
+                           
                                     
                                     { categories && categories.map((category) => (
                                         <option key={category.name} value={category.name} >{category.name}</option> 
@@ -140,13 +155,12 @@ class AddPost extends Component {
 
                             <div className="form-group">
                                 <input id="title"
-                                    className='post-title'
+                                    className='post-body'
                                     name='title'
-                                    type='text'
+                                    type='textarea'
                                     placeholder='Post title'
                                     onChange={this.handleChange.bind(this)}
-                                    value={this.props.post}
-                                    //ref={(input) => this.title = input } 
+                                    //ref={(input) => this.body = input } 
                                 />
                             </div>
 

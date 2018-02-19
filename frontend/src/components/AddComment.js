@@ -38,6 +38,7 @@ class AddComment extends Component {
         event.preventDefault();
 
         let comment = this.state.comment;
+        let currentPost = this.props.currentPost[0];
         comment.author = 'User 1';
         comment.id = genID();
         comment.timestamp = Date.now();
@@ -47,9 +48,13 @@ class AddComment extends Component {
 
         API.addComment(comment).then((comment) => {
             this.props.addNewComment(comment); 
-        });
-
-            this.props.history.push('/posts/' + this.state.comment.parentId )    
+        }).then(
+            //this.props.history.push(`/all`),
+            this.props.history.push('/'+ currentPost.category + '/' + currentPost.id ),
+            window.location.reload()
+        );
+        
+         //   this.props.history.push('/posts/' + this.state.comment.parentId )    
         //this.props.history.go(-1);
     }
     
@@ -118,7 +123,7 @@ function mapDispatchToProps( dispatch ) {
 }   
 function mapStateToProps( state ) {
     return {
-
+        currentPost: state.currentPost,
     }
 }   
 

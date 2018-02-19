@@ -7,8 +7,9 @@ import { ToastContainer } from 'react-toastify';
 import '../styles/master.css';
 
 import * as  API from '../utils/ReadableAPI.js'; 
-import { setCategories, setPosts, setPostsByVote, setActiveCategory  } from '../actions/';
+import { setCategories, setPosts, setPostsByVote, setActiveCategory,addNewPost  } from '../actions/';
 
+import Modal from 'react-modal'
 import AppBar from './AppBar';
 import Posts from './Posts';
 import PostDetail from './PostDetail';
@@ -23,10 +24,11 @@ import EditComment from './EditComment';
 class App extends Component {
 
     state = {
+        postModalIsOpen: false,
         category:'all',
         posts:[]
     }
-
+   
     componentDidMount() {
 
        let category = this.state.category;
@@ -39,7 +41,24 @@ class App extends Component {
  
     }
 
+// ---------------------------------------------_POST
 
+
+
+
+// ---------------------------------------------_MODAL
+    openAddCommentModal = () => {
+
+        this.setState({
+            commentModalIsOpen: true,
+            currentComment:null,
+        });
+
+    }
+
+    closeCommentModal = () => {
+    this.setState({commentModalIsOpen: false});
+    }
 
     setActiveCategory(e){
 
@@ -49,6 +68,12 @@ class App extends Component {
        // window.location.reload();
     }
 
+
+
+
+
+
+// ---------------------------------------------_ALL POSTS
     setPostsByCat(category){
 
         this.setState({category});
@@ -75,6 +100,11 @@ class App extends Component {
         console.log(this.state)
     }
 
+
+
+
+
+// ---------------------------------------------_FILTERING
     // todo: merge func with setPostByCat
     sortByDate(){
         let category = this.state.category;
@@ -121,7 +151,21 @@ class App extends Component {
 
             <div className="App">
 
-                <AppBar />
+{/* <nav className="c-appBar">
+
+<Link to="/all">
+    <h1 className="u-fl">Readable</h1>
+</Link>
+
+
+<button className="c-flatButton c-flatButton--grey" value="addPost" onClick={() => this.openAddCommentModal() }>add post</button>
+<Link to='/create-new' className="c-flatButton" >Add new post</Link>
+
+</nav>  */}
+
+                <AppBar 
+                    openPostModal = {this.openAddCommentModal}
+                />
                 <ToastContainer />
                 
                 <div className="c-posts_filter">
@@ -164,14 +208,35 @@ class App extends Component {
                     <AddPost/>
                     )}
                     />
+                    
+                    
                     <Route path='/:category' exact component={ Posts } />
+
                     <Route path='/:category/:id' exact component={ PostDetail } />
+
                     <Route path='/:category/:id/edit-post' exact component={ EditPost }/>
+                    
                     <Route path='/:category/:id/add-comment' exact component={ AddComment } /> 
                     <Route path='/:id/:commentId/edit-comment' exact component={ EditComment } />
                     <Route path='/' component={Posts}/>
                 </Switch>
+
+                <Modal
+                className='modal'
+                overlayClassName='overlay'
+                isOpen={this.state.commentModalIsOpen}
+                //onAfterOpen={this.afterOpenModal}
+                onRequestClose={this.closeCommentModal}
+                contentLabel='Modal'
+                >
+                  
+                    <AddPost
+                    closeCommentModal={this.closeCommentModal}
+                    />
+
+                </Modal>
             </div>
+ 
         )
     }
 }

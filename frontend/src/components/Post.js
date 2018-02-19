@@ -6,9 +6,12 @@ import { printDate } from '../utils/GenID';
 import {Link} from 'react-router-dom'
 import { toast } from 'react-toastify';
 
-import * as API from '../utils/ReadableAPI';
-import {  setCurrentPost, deletePost, editPost, votePost } from '../actions';
+import Modal from 'react-modal'
 
+import * as API from '../utils/ReadableAPI';
+import { openModal , closeModal } from '../utils/Modal';
+import {  setCurrentPost, deletePost, editPost, votePost } from '../actions';
+import EditPost from './EditPost';
 import FaThumbsDown from 'react-icons/lib/fa/thumbs-down';
 import FaThumbsUp from 'react-icons/lib/fa/thumbs-up';
 
@@ -18,22 +21,35 @@ import FaThumbsUp from 'react-icons/lib/fa/thumbs-up';
 class Post extends Component {
 
 
+    state = {
+        postModalIsOpen: false,
+        post:{}
+    }
 
+    openModal = () => {
+
+        this.setState({
+            postModalIsOpen: true
+        })
+    
+    }
+    
+    closeModal = () => {
+    this.setState({postModalIsOpen: false})
+    }
 
     
     componentDidMount() {
-        
+        console.log('post p',this.props )
         let postId = this.props.post.id;
-        // API.getPosts().then((posts) => {
-        //     this.props.setPosts(posts);
-        // });
+        
 
         if ( postId ){
             
             this.props.setCurrentPost(postId);
         
         }
-
+        
     }
 
 
@@ -125,9 +141,10 @@ class Post extends Component {
                 <div className="c-card_actions">
             
                     <div className="c-post_edit">
-                        <Link to={`/${post.category}/${post.id}/edit-post`}>
-                            <button className="c-flatButton c-flatButton--grey" >Edit</button> 
-                        </Link>
+                        
+                            <button className="c-flatButton c-flatButton--grey" onClick={() => this.openModal() } >Edit</button> 
+                            {/* <Link to={`/${post.category}/${post.id}/edit-post`}>
+                        </Link> */}
                         <button className="c-flatButton c-flatButton--grey" name={ post.id } onClick={this.deletePost}>Delete</button>
                     </div>
 
@@ -138,6 +155,23 @@ class Post extends Component {
                     </div>
 
                 </div>
+
+                <Modal
+                className='modal'
+                overlayClassName='overlay'
+                isOpen={this.state.postModalIsOpen}
+                //onAfterOpen={this.afterOpenModal}
+                onRequestClose={this.closePostModal}
+                contentLabel='Modal'
+                >
+                  
+                    <EditPost
+                    closeModal={this.closeModal}
+                    post={post}
+                    />
+
+                </Modal>
+
 
             </div>
 

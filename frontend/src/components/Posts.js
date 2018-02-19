@@ -8,11 +8,12 @@ class Posts extends Component {
 
 
     componentDidMount() {
-        console.log('posts did mount')
+        console.log('posts did mount',this.props)
         // let activeCategory = this.props.activeCategory;
         // this.setState({activeCategory})
 
     }
+
 
 
     render() {
@@ -21,7 +22,7 @@ class Posts extends Component {
 
 
         if(posts.length > 0){
-            postsData = posts.map((post,index) => <Post key={post.id} post={ post } />
+            postsData = posts.map((post,index) => <Post key={post.id} post={ post } openPostModal={this.props.openPostModal}/>
         )
         }else{
             postsData = <h3>There are no posts to display</h3>

@@ -4,10 +4,11 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 
 
-import { genID } from '../utils/GenID';
+import { toast } from 'react-toastify';
+
 
 import * as API from '../utils/ReadableAPI';
-
+//import { genID } from '../utils/GenID';
 import { addNewComment, deleteComment, editComment } from '../actions';
 
 // TODO: use edit comment from API
@@ -15,82 +16,95 @@ class EditComment extends Component {
 
 
     state={
-        newComment:false,
         comment:{},
-        currentPost:""
+        currentPost:{}
     }
    
     handleChange(event) {
-  
+        //event.preventDefault();
         let comment = this.state.comment;
         let name = event.target.name;
         let value = event.target.value;
         comment[name] = value;
 
         this.setState({comment})
-        console.log(this.state.comment)
+
     }
 
 
 
-    handleSubmit() {
-
-  
-
+    handleSubmit(event) {
+        event.preventDefault();
+    
         let comment = this.state.comment;
         let commentId = this.state.comment.id;
-        comment.timestamp = Date.now()
-        
-        if(comment.id){
-            
-            API.deleteComment(commentId)
+        let activeCategory = this.props.activeCategory;
+        let currentPost = this.props.currentPost[0];
+
+        comment.timestamp = Date.now();
+        this.setState({ comment })
+
+
+ 
+            API.deleteComment(comment).then((comment) => {
+                this.props.deleteComment(comment); 
+            });
             
             API.addComment(comment).then((comment) => {
-                this.props.addNewComment(comment)
+                this.props.addNewComment(comment);
             }).then(
-                console.log(this.state.comment),
-                this.props.closeCommentModal(),
+                //this.props.history.push(`/all`),
+                this.props.history.push('/'+ currentPost.category + '/' + currentPost.id ),
+                window.location.reload()
             );
-
-        }else{
-
-            comment.author = 'User 1'
-            comment.id = genID()
-            comment.timestamp = Date.now()
-            comment.parentId = this.props.currentPost
-     
-            this.setState({ comment })
-            
-            API.addComment(comment).then((comment) => {
-                this.props.addNewComment(comment)
-            })
-
-        }
+              
 
     }
 
     
     componentDidMount() {
-
         console.log('edit comment props',this.props)
-
-        let comment = this.props.comment
-  
         
-        if(comment){
+        // use url - get by Id
+        let comment = this.state.comment;
+        let commentId = this.props.match.params.commentId;
+        
+        console.log(commentId)
+        
+        let currentComment = this.props.comments.find(function(c){ return c.id === commentId});
+        
+        console.log(currentComment)
+        
+        let currentPost = this.props.currentPost[0]
 
-            this.setState({
-                comment: comment ,
-            }, function () {
-                console.log(this.state);
-            });
-    
-            document.getElementById('body').value = comment.body;
+        // this.setState(state => ({
+        //     currentPost: currentPost
+        // }));
+        
+        if( currentPost ){
+            
+            comment.parentId = currentPost.id
+            this.setState({ comment })
 
         }
 
+        if( currentComment ){
+            console.log('cc id',currentComment)
+            document.getElementById('body').value = currentComment.body;
+            
+            // -- populate comment for dispatch
+            comment.id = commentId;
+            comment.author = 'User 1';
+            comment.deleted = currentComment.deleted;
+            comment.parentDeleted = currentComment.parentDeleted;
+            comment.voteScore = currentComment.voteScore; 
 
+            this.setState({comment})
 
+            console.log(this.state)
+        
+        }
+       
     }
 
 
@@ -113,7 +127,6 @@ class EditComment extends Component {
                     <form onSubmit={this.handleSubmit.bind(this)}>
         
                      
-
 
                         <div className="form-group">
                             <input id="body"

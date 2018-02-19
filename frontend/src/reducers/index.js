@@ -125,11 +125,9 @@ const appReducer = (state = initialState, action = {}) => {
         
         case actions.SET_CURRENT_POST:
 
-            let curPost = state.posts.filter( (post) => post.id === action.postId);
-
             return {
                 ...state, 
-                'currentPost' : curPost
+                'currentPost' : action.postId
             };
         
 

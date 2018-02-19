@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+
 import {withRouter} from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
@@ -7,6 +8,9 @@ import { printDate } from '../utils/GenID';
 import * as API from '../utils/ReadableAPI';
 import { setPosts,setPostById, setCurrentPost, deletePost, votePost } from '../actions';
 import { loadComments, deleteComment, voteComment } from '../actions';
+import Modal from 'react-modal'
+import EditComment from './EditComment'
+import Button from './Button'
 import FaThumbsDown from 'react-icons/lib/fa/thumbs-down';
 import FaThumbsUp from 'react-icons/lib/fa/thumbs-up';
 
@@ -14,11 +18,44 @@ class PostDetail extends Component {
 
 
     state={
+        commentEdit:false,
+        commentModalIsOpen: false,
         currentPost:{},
+        currentComment:{},
         post:{},
         comments:[]
     }
 
+
+    openCommentModal = (comment) => {
+
+        
+                let testComment = comment.c
+
+                this.setState({
+                    currentComment: testComment,
+                    commentModalIsOpen: true, 
+                }, function () {
+                    console.log(this.state);
+                });
+                
+
+
+    }
+
+    openAddCommentModal = () => {
+
+        this.setState({
+            commentModalIsOpen: true,
+            currentComment:null,
+        });
+
+    }
+
+      closeCommentModal = () => {
+        this.setState({commentModalIsOpen: false});
+      }
+    
 
 
     componentDidMount() {
@@ -28,23 +65,23 @@ class PostDetail extends Component {
 
 
         console.log(postId)
- //       this.setState({})
+        this.setState({currentPost:this.props})
 
         API.getPostById(postId).then((post) => {
             this.setState({post})
-            console.log('pbyid',post)
+            this.setState({currentPost:post.id})
+
         });
 
         this.props.loadComments(postId);
         this.props.setCurrentPost(postId);
 
         API.getComments(postId).then((comments) => {
-            //console.log('comments pd',comments)
-            this.setState({comments})
-            
-            //console.log('state pd',this.state)
-        });
 
+            this.setState({comments})
+
+        });
+        console.log('prosp on load postDetatil',this.props)
     }
 
     
@@ -62,8 +99,8 @@ class PostDetail extends Component {
 
         });
         
-        // not ideal
-        window.location.reload();
+        this.props.loadComments(postId);
+
     }
 
     
@@ -72,13 +109,13 @@ class PostDetail extends Component {
         let postId = this.props.match.params.id;
         API.votePost(postId, 'downVote').then((postId) => {
 
-            toast("Post voted down!");
+
             this.props.votePost(postId);
          
         });
 
-        // not ideal
-        window.location.reload();
+        this.props.loadComments(postId);
+
     }
 
 
@@ -88,7 +125,6 @@ class PostDetail extends Component {
 
         API.deletePost(postId);
     
-        toast("Post deleted");
 
         window.location.reload();
     
@@ -110,11 +146,7 @@ class PostDetail extends Component {
             this.props.votePost(commentId);
 
         });
-
-        toast(commentId +"voted up!");
-
-        
-        
+    
         window.location.reload();
     }
 
@@ -128,8 +160,7 @@ class PostDetail extends Component {
             this.props.votePost(commentId);
 
         });
-        toast(commentId +"voted down!");
-
+        
         window.location.reload();
     }
 
@@ -152,10 +183,13 @@ class PostDetail extends Component {
 
 
     render() {
-
-        const post = this.state.post;
-        const comments = this.state.comments;
+        console.log('Props',this.props)
+        const { commentModalOpen } = this.state 
+        const post = this.state.post
+        const comments = this.state.comments
+        const newComment = true
         var postData;
+        
         console.log(post)
         //let post = this.props.posts.find((post) => {return post.id === postId});
         //let comments = Array.from(this.props.comments)
@@ -165,6 +199,7 @@ class PostDetail extends Component {
 
       
             postData = (
+                <div>
                 <div className="c-post" >
                     
                     <div className="c-post_header">
@@ -190,29 +225,21 @@ class PostDetail extends Component {
                     </div>
 
                     <div className="c-post_actions">
-            
-                        {/* <div className="c-post_edit">
-                            <Link to={`/${post.category}/${post.id}/edit-post`}>
-                                <button className="c-flatButton c-flatButton--grey" >Edit</button> 
-                            </Link>
-                            <button className="c-flatButton c-flatButton--grey" onClick={this.deletePost}>Delete</button>
-                        </div> */}
-
 
                         <div className="c-post_vote">
                         <button className="c-flatButton" onClick={this.upVotePost}>Vote Up <FaThumbsUp /></button>
                         <button className="c-flatButton" onClick={this.downVotePost}>Vote Down <FaThumbsDown /></button>
                         </div>
-                
-
+              
                     </div>
 
 
                     <div className="c-comments_header">
                             
                         <h2>Comments: { post.commentCount }</h2>
+                        <button className="c-flatButton" value="add" onClick={() => this.openAddCommentModal() } >Add new comment</button>
                         <Link to={`/${post.category}/${post.id}/add-comment`}>
-                            <button className="c-flatButton">Add new comment</button>
+                        add comment link
                         </Link>
         
                     </div>
@@ -221,7 +248,9 @@ class PostDetail extends Component {
                         <div className="c-comments">
                             
                             {  comments.map((c,index) =>
-
+                                
+                          
+                                
                                 <div className="c-card" id={ c.id } key={ index } >
 
                                     <div className="c-card_header">
@@ -239,9 +268,13 @@ class PostDetail extends Component {
                                     <div className="c-card_actions">
 
                                         <div className="c-comment_edit">       
-                                            <Link to={`/${c.parentId}/${c.id}/edit-comment`}>
-                                                <button className="c-flatButton c-flatButton--grey">edit</button>
-                                            </Link> 
+                                                {/* <Button onClick={() => this.openModal({c})}>
+                                                    <h3>edit</h3>
+                                                </Button> */}
+                                                <button className="c-flatButton c-flatButton--grey" value="edit" onClick={() => this.openCommentModal({ c }) }>edit modal</button>
+                                                <Link to={`/${c.parentId}/${c.id}/edit-comment`}>
+                                                actual edit link
+                                                </Link> 
                                             <button className="c-flatButton c-flatButton--grey" title={ c.id } onClick={ this.deleteComment }  >Delete</button>
                                         </div>
 
@@ -258,8 +291,28 @@ class PostDetail extends Component {
                     )} 
 
 
+
+
+
                 </div>
 
+                <Modal
+                className='modal'
+                overlayClassName='overlay'
+                isOpen={this.state.commentModalIsOpen}
+                //onAfterOpen={this.afterOpenModal}
+                onRequestClose={this.closeCommentModal}
+                contentLabel='Modal'
+                >
+                  
+                    <EditComment 
+                    comment={this.state.currentComment} 
+                    //post={this.state.post}
+                    closeCommentModal={this.closeCommentModal}
+                    />
+
+                </Modal>
+                </div>
 
 
             )

@@ -6,7 +6,6 @@ import {withRouter} from 'react-router-dom'
 import * as API from '../utils/ReadableAPI';
 import { genID } from '../utils/GenID';
 import { addNewPost } from '../actions';
-import { toast } from 'react-toastify';
 
 
 class AddPost extends Component {
@@ -44,8 +43,8 @@ class AddPost extends Component {
             this.props.addNewPost(post);
             console.log('post from func', post)
         });
-
-        this.props.history.push("/all");
+        this.props.closeCommentModal()
+      //  this.props.history.push("/all")
  
         
     }

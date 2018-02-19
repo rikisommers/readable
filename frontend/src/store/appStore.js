@@ -22,10 +22,11 @@ const appStore = () => {
         enhancers
     );
 
-    // store.subscribe(() => {
-    //     //this is just a function that saves state to localStorage
-    //     saveState(store.getState());
-    // }); 
+
+    store.subscribe(() => {
+        localStorage.state = JSON.stringify(store.getState());
+    });
+
 
     return store;
 
