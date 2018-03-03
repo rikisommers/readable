@@ -271,10 +271,10 @@ class PostDetail extends Component {
                                                 {/* <Button onClick={() => this.openModal({c})}>
                                                     <h3>edit</h3>
                                                 </Button> */}
-                                                <button className="c-flatButton c-flatButton--grey" value="edit" onClick={() => this.openCommentModal({ c }) }>edit modal</button>
-                                                <Link to={`/${c.parentId}/${c.id}/edit-comment`}>
+                                                <button className="c-flatButton c-flatButton--grey" value="edit" onClick={() => this.openCommentModal({ c }) }>edit</button>
+                                                {/* <Link to={`/${c.parentId}/${c.id}/edit-comment`}>
                                                 actual edit link
-                                                </Link> 
+                                                </Link>  */}
                                             <button className="c-flatButton c-flatButton--grey" title={ c.id } onClick={ this.deleteComment }  >Delete</button>
                                         </div>
 
